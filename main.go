@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import "database/sql"
+
+type server struct {
+	db *sql.DB
+}
 
 func main() {
-	fmt.Println("Hello godoo")
+
 }

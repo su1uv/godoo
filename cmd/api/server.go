@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
@@ -50,10 +51,11 @@ func (app *application) serve() error {
 
 	}()
 
-	app.logger.Info("Starting server", map[string]string{
-		"addr": srv.Addr,
-		"env":  app.config.env,
-	})
+	app.logger.Info("Starting server",
+		slog.GroupAttrs(
+			slog.String("addr", srv.Addr),
+			slog.String("env", app.config.env),
+		))
 
 	err := srv.ListenAndServe()
 	if !errors.Is(err, http.ErrServerClosed) {

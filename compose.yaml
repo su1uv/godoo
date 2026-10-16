@@ -1,0 +1,15 @@
+services:
+  database:
+    image: "postgres:latest"
+    restart: always
+
+    ports:
+      - "5432:5432"
+
+    environment:
+      POSTGRES_USER: godoouser
+      POSTGRES_PASSWORD: godoopasswd
+      POSTGRES_DB: godoodb
+
+    volumes:
+      - ${HOME}/postgres-data/:/var/postgresql

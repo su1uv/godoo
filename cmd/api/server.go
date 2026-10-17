@@ -53,8 +53,8 @@ func (app *application) serve() error {
 
 	app.logger.Info("Starting server",
 		slog.GroupAttrs(
-			slog.String("addr", srv.Addr),
-			slog.String("env", app.config.env),
+			slog.Attr{Key: "addr", Value: slog.StringValue(srv.Addr)},
+			slog.Attr{Key: "env", Value: slog.StringValue(app.config.env)},
 		))
 
 	err := srv.ListenAndServe()

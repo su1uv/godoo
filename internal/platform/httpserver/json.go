@@ -1,4 +1,4 @@
-package http
+package httpserver
 
 import (
 	"encoding/json/v2"
@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func readJSON(w http.ResponseWriter, r *http.Request, dst interface{}) error {
+func ReadJSON(w http.ResponseWriter, r *http.Request, dst interface{}) error {
 	const maxBytes = 1 << 20
 
 	r.Body = http.MaxBytesReader(w, r.Body, maxBytes)
@@ -30,7 +30,7 @@ func readJSON(w http.ResponseWriter, r *http.Request, dst interface{}) error {
 	return nil
 }
 
-func respondWithJSON(w http.ResponseWriter, code int, data any) error {
+func RespondWithJSON(w http.ResponseWriter, code int, data any) error {
 	res, err := json.Marshal(data)
 	if err != nil {
 		return err
@@ -43,6 +43,6 @@ func respondWithJSON(w http.ResponseWriter, code int, data any) error {
 	return err
 }
 
-func respondWithError(w http.ResponseWriter, code int, msg string) error {
-	return respondWithJSON(w, code, map[string]string{"error": msg})
+func RespondWithError(w http.ResponseWriter, code int, msg string) error {
+	return RespondWithJSON(w, code, map[string]string{"error": msg})
 }

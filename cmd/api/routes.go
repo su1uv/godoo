@@ -2,7 +2,7 @@ package main
 
 import "net/http"
 
-func registerRoutes() *http.ServeMux {
+func (app *application) routes() http.Handler {
 	mux := http.NewServeMux()
 
 	return mux

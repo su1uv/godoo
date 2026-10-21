@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log/slog"
+	"net/http"
 	"os"
 	"sync"
 	"time"
@@ -35,6 +36,7 @@ type config struct {
 type application struct {
 	config  config
 	logger  *slog.Logger
+	routes  *http.ServeMux
 	queries *db.Queries
 	wg      sync.WaitGroup
 }
@@ -67,11 +69,13 @@ func main() {
 	logger.Info("database connection pool established")
 
 	queries := db.New(pool)
+	routes := registerRoutes()
 
 	app := &application{
 		config:  cfg,
 		logger:  logger,
 		queries: queries,
+		routes:  routes,
 	}
 
 	err = app.serve()

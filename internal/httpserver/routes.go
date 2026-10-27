@@ -22,5 +22,5 @@ func (a *application) routes() http.Handler {
 }
 
 func healthz(w http.ResponseWriter, r *http.Request) {
-	helpers.RespondWithJSON(w, http.StatusOK, map[string]string{"status": "ok"})
+	helpers.Encode(w, r, http.StatusOK, map[string]string{"status": "ok"})
 }

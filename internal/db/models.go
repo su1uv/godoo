@@ -16,7 +16,7 @@ type Task struct {
 	UpdatedAt   time.Time
 	Title       string
 	Description string
-	CompletedAt time.Time
-	DueAt       time.Time
-	DeletedAt   time.Time
+	CompletedAt *time.Time
+	DueAt       *time.Time
+	DeletedAt   *time.Time
 }

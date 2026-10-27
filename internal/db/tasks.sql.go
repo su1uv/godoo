@@ -29,7 +29,7 @@ returning
 type CreateTaskParams struct {
 	Title       string
 	Description string
-	DueAt       time.Time
+	DueAt       *time.Time
 }
 
 func (q *Queries) CreateTask(ctx context.Context, arg CreateTaskParams) (Task, error) {
@@ -177,8 +177,8 @@ type UpdateTaskParams struct {
 	ID          uuid.UUID
 	Title       string
 	Description string
-	DueAt       time.Time
-	CompletedAt time.Time
+	DueAt       *time.Time
+	CompletedAt *time.Time
 }
 
 func (q *Queries) UpdateTask(ctx context.Context, arg UpdateTaskParams) (Task, error) {

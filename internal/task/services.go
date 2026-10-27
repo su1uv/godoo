@@ -14,23 +14,11 @@ func NewService(repo *db.Queries) *Service {
 	return &Service{repo: repo}
 }
 
-func (s *Service) CreateTask(ctx context.Context, input *CreateTaskPayload) (*Task, error) {
-	createdTask, err := s.repo.CreateTask(ctx, db.CreateTaskParams{
-		Title:       input.Title,
-		Description: input.Description,
-		DueAt:       input.DueAt,
-	})
+func (s *Service) CreateTask(ctx context.Context, args db.CreateTaskParams) (db.Task, error) {
+	createdTask, err := s.repo.CreateTask(ctx, args)
 	if err != nil {
-		return nil, err
+		return db.Task{}, err
 	}
-	return &Task{
-		ID:          createdTask.ID,
-		CreatedAt:   createdTask.CreatedAt,
-		UpdatedAt:   createdTask.UpdatedAt,
-		Title:       createdTask.Title,
-		Description: createdTask.Description,
-		CompletedAt: &createdTask.CompletedAt,
-		DueAt:       &createdTask.DueAt,
-		DeletedAt:   &createdTask.DeletedAt,
-	}, nil
+
+	return createdTask, nil
 }

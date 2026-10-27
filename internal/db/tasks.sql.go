@@ -7,8 +7,9 @@ package db
 
 import (
 	"context"
+	"time"
 
-	"github.com/jackc/pgx/v5/pgtype"
+	"uuid"
 )
 
 const createTask = `-- name: CreateTask :one
@@ -28,7 +29,7 @@ returning
 type CreateTaskParams struct {
 	Title       string
 	Description string
-	DueAt       pgtype.Timestamptz
+	DueAt       time.Time
 }
 
 func (q *Queries) CreateTask(ctx context.Context, arg CreateTaskParams) (Task, error) {
@@ -63,7 +64,7 @@ returning
     deleted_at
 `
 
-func (q *Queries) DeleteTask(ctx context.Context, id pgtype.UUID) (Task, error) {
+func (q *Queries) DeleteTask(ctx context.Context, id uuid.UUID) (Task, error) {
 	row := q.db.QueryRow(ctx, deleteTask, id)
 	var i Task
 	err := row.Scan(
@@ -94,7 +95,7 @@ where id = $1
 limit 1
 `
 
-func (q *Queries) GetTask(ctx context.Context, id pgtype.UUID) (Task, error) {
+func (q *Queries) GetTask(ctx context.Context, id uuid.UUID) (Task, error) {
 	row := q.db.QueryRow(ctx, getTask, id)
 	var i Task
 	err := row.Scan(
@@ -130,7 +131,7 @@ func (q *Queries) ListTasks(ctx context.Context) ([]Task, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Task
+	items := []Task{}
 	for rows.Next() {
 		var i Task
 		if err := rows.Scan(
@@ -173,11 +174,11 @@ returning
 `
 
 type UpdateTaskParams struct {
-	ID          pgtype.UUID
+	ID          uuid.UUID
 	Title       string
 	Description string
-	DueAt       pgtype.Timestamptz
-	CompletedAt pgtype.Timestamptz
+	DueAt       time.Time
+	CompletedAt time.Time
 }
 
 func (q *Queries) UpdateTask(ctx context.Context, arg UpdateTaskParams) (Task, error) {

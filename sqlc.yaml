@@ -1,12 +1,12 @@
 version: "2"
 sql:
   - engine: "postgresql"
-    queries: "internal/platform/db/sql/queries"
+    queries: "internal/db/queries"
     schema: "migrations"
     gen:
       go:
         package: "db"
-        out: "internal/platform/db/sqlc"
+        out: "internal/db"
         sql_package: "pgx/v5"
         emit_json_tags: false
         emit_interface: true
@@ -14,7 +14,11 @@ sql:
         overrides:
           - db_type: "timestamptz"
             go_type: "time.Time"
+          - db_type: "timestamptz"
+            go_type: "time.Time"
             nullable: true
+          - db_type: "uuid"
+            go_type: "uuid.UUID"
           - db_type: "uuid"
             go_type: "uuid.UUID"
             nullable: true

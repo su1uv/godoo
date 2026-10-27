@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func ReadJSON(w http.ResponseWriter, r *http.Request, dst interface{}) error {
+func ReadJSON(w http.ResponseWriter, r *http.Request, dst any) error {
 	const maxBytes = 1 << 20
 
 	r.Body = http.MaxBytesReader(w, r.Body, maxBytes)

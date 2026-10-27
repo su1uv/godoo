@@ -3,23 +3,24 @@ package httpserver
 import (
 	"net/http"
 
-	"github.com/su1uv/godoo/internal/platform"
+	"github.com/su1uv/godoo/internal/helpers"
+	"github.com/su1uv/godoo/internal/httpserver/middleware"
 	"github.com/su1uv/godoo/internal/task"
 )
 
-func (app *application) routes() http.Handler {
+func (a *application) routes() http.Handler {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /healthz", healthz)
 
-	taskService := task.NewService(taskRepo)
-	taskHandler := task.NewHandler(taskService)
+	taskService := task.NewService(a.queries)
+	taskHandler := task.NewHandler(taskService, a.logger)
 
 	mux.HandleFunc("POST /task", taskHandler.CreateTask)
 
-	return mux
+	return middleware.Logger(a.logger)(mux)
 }
 
 func healthz(w http.ResponseWriter, r *http.Request) {
-	platform.RespondWithJSON(w, http.StatusOK, map[string]string{"status": "ok"})
+	helpers.RespondWithJSON(w, http.StatusOK, map[string]string{"status": "ok"})
 }

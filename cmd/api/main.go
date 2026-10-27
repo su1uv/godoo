@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/su1uv/godoo/internal/platform/httpserver"
+	"github.com/su1uv/godoo/internal/httpserver"
 )
 
 func main() {

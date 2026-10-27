@@ -14,7 +14,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	db "github.com/su1uv/godoo/internal/platform/db/sqlc"
+	"github.com/su1uv/godoo/internal/db"
 )
 
 var (
